@@ -70,14 +70,9 @@ const enviarMensaje = async () => {
           console.log("el tiempo elegido fue: ", tiempo)
           // envio el mensaje
           setTimeout(async () => {
-            // obtengo todos los contactos 
-            const contactos = await client.getContacts();
-            // busco el contacto que coincida con el numero de telefono del cliente
-            const contacto = contactos.find((contacto) => contacto.id.user === "549" + cliente.phone_number);
-            // si existe el contacto envio el mensaje
-            if(contacto){
+      
               client.sendMessage("549" + cliente.phone_number + "@c.us", mensaje);
-            }
+            
           }, tiempoAnterior);
           contador++;
         });
