@@ -38,8 +38,10 @@ const enviarMensaje = async () => {
     const responseHora = await clientDb2.query(customQueryHora);
     const hora = responseHora.rows[0].hora;
 
-     if (hora >= "08:00:00" && hora <= "12:00:00") {
+  console.log(hora)
 
+     if (hora >= "08:00:00" && hora <= "12:00:00") {
+      console.log("Msj cumple")
 
       // Primero obtengo lo cumpleañeros
       const customQuery =
@@ -71,7 +73,7 @@ const enviarMensaje = async () => {
   } else {
 
    // 
-
+   console.log("Msj bienvenida")
 
      const customQueryBienvenida ="select phone_number from client where saludo_bienvenida = false";
       const responseBienvenida = await clientDb2.query(customQueryBienvenida);
@@ -97,6 +99,8 @@ const enviarMensaje = async () => {
           // envio el mensaje
           setTimeout(async () => {
       
+            console.log("el numero es: ", cliente.phone_number)
+            console.log(!isNaN(client.phone_number))
 
             if(!isNaN(client.phone_number)){
                 client.sendMessage("549" + cliente.phone_number + "@c.us", mensaje);
