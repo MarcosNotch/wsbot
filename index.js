@@ -97,7 +97,10 @@ const enviarMensaje = async () => {
           // envio el mensaje
           setTimeout(async () => {
       
-              client.sendMessage("549" + cliente.phone_number + "@c.us", mensaje);
+
+            if(!isNaN(client.phone_number)){
+                client.sendMessage("549" + cliente.phone_number + "@c.us", mensaje);
+            }
             
           }, tiempoAnterior);
           contador++;
@@ -106,5 +109,5 @@ const enviarMensaje = async () => {
   }
 
 
-  
+
 client.initialize();
