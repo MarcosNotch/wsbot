@@ -33,6 +33,14 @@ const enviarMensaje = async () => {
     const setHJora = "SET TIME ZONE 'America/Argentina/Buenos_Aires'";
     await clientDb2.query(setHJora);
     
+    // quiero saber la hora del servidor en horario argentino
+    const customQueryHora = "select to_char(now(), 'HH24:MI:SS') as hora";
+    const responseHora = await clientDb2.query(customQueryHora);
+    const hora = responseHora.rows[0].hora;
+
+     if (hora >= "08:00:00" && hora <= "12:00:00") {
+
+
       // Primero obtengo lo cumpleañeros
       const customQuery =
         "select name, phone_number from client c where to_char(now(), 'MM-DD') =  to_char(c.birth_date, 'MM-DD')";
@@ -44,6 +52,7 @@ const enviarMensaje = async () => {
         const responseMensajes = await clientDb2.query(customQuery2);
     
         // Por cada cumpleañero envio el mensaje
+        
         enviarMensajeAClientes(responseCumpleaneros.rows, responseMensajes.rows);
       }
     
@@ -56,8 +65,25 @@ const enviarMensaje = async () => {
         const responseMensajesAusente = await clientDb2.query(customQuery3);
         enviarMensajeAClientes(responseAusente.rows, responseMensajesAusente.rows);
     };
-    }
+
+
+
+  } else {
+
+   // 
+
+
+     const customQueryBienvenida ="select phone_number from client where saludo_bienvenida = false";
+      const responseBienvenida = await clientDb2.query(customQueryBienvenida);
+      if(responseBienvenida.rows.length > 0){
+
+      const customQuery4 = "select mensaje from mensaje where tipo_mensaje_id=3";
+      const responseMensajesBienvenida = await clientDb2.query(customQuery4);
+      enviarMensajeAClientes(responseBienvenida.rows, responseMensajesBienvenida.rows);
+      }
     
+  }
+
     function enviarMensajeAClientes(listaClientes, mensajes){
         let tiempoAnterior = 0;
         let contador = 0;
@@ -77,5 +103,8 @@ const enviarMensaje = async () => {
           contador++;
         });
     }
+  }
 
+
+  
 client.initialize();
