@@ -100,9 +100,9 @@ const enviarMensaje = async () => {
           setTimeout(async () => {
       
             console.log("el numero es: ", cliente.phone_number)
-            console.log(!isNaN(client.phone_number))
+            console.log(!isNaN(cliente.phone_number))
 
-            if(!isNaN(client.phone_number)){
+            if(!isNaN(cliente.phone_number)){
                 client.sendMessage("549" + cliente.phone_number + "@c.us", mensaje);
             }
             
